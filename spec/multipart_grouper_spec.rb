@@ -6,7 +6,7 @@ RSpec.describe MultipartGrouper do
   let(:input_path) { "./spec/fixtures/inputs/#{input_pathname}.csv" }
 
   subject do
-    MultipartGrouper.new(input_file: input_path, group_files: group_paths).group
+    MultipartGrouper.new(input_file: input_path, group_files: group_paths).group.map(&:sort)
   end
 
   context "finds correct groups of two two and two" do
@@ -17,7 +17,7 @@ RSpec.describe MultipartGrouper do
         [
           ["MRI Elbow", "MRI Forearm"],               # Created from the MRI Upper Limb group
           ["MRI Spine Coccyx", "MRI Spine Thoracic"], # Created from the MRI Axial Skeleton group
-          ["MRI Thigh", "MRI Knee"]                   # Created from the MRI Lower Limb group
+          ["MRI Knee", "MRI Thigh"]                   # Created from the MRI Lower Limb group
         ]
       )
     end
@@ -36,8 +36,8 @@ RSpec.describe MultipartGrouper do
           [
             "MRI Lumbar Spine",
             "MRI Pelvis",
-            "MRI Spine Sacrum",
-            "MRI Spine Coccyx"
+            "MRI Spine Coccyx",
+            "MRI Spine Sacrum"
           ]
         ]
       )
@@ -51,11 +51,11 @@ RSpec.describe MultipartGrouper do
       expect(subject).to eq(
         [
           [
-            "MRI Thigh",
-            "MRI Knee",
+            "MRI Ankle",
             "MRI Femur",
+            "MRI Knee",
             "MRI Lower Leg",
-            "MRI Ankle"
+            "MRI Thigh"
           ]
         ]
       )
@@ -70,11 +70,11 @@ RSpec.describe MultipartGrouper do
         [
           [
             "MRI Cervical Spine",
-            "MRI Spine Coccyx",
-            "MRI Spine Lumbar/Sacral",
-            "MRI SIJ Both",
+            "MRI Cervical Spine",
             "MRI Pelvis",
-            "MRI Cervical Spine"
+            "MRI SIJ Both",
+            "MRI Spine Coccyx",
+            "MRI Spine Lumbar/Sacral"
           ],
           [
             "MRI Elbow",
